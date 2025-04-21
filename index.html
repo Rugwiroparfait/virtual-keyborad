@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Futuristic Virtual Keyboard</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: #fff;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 850px;
+      margin: 0 auto;
+    }
+
+    .text-display {
+      width: 100%;
+      height: 150px;
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid #4a80f5;
+      color: #fff;
+      font-size: 18px;
+      resize: none;
+      box-shadow: 0 0 15px rgba(74, 128, 245, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .text-display:focus {
+      outline: none;
+      box-shadow: 0 0 20px rgba(74, 128, 245, 0.5);
+    }
+
+    .keyboard {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 8px;
+    }
+
+    .key {
+      background: rgba(30, 30, 50, 0.9);
+      color: #4a80f5;
+      border: 1px solid #4a80f5;
+      border-radius: 8px;
+      margin: 3px;
+      padding: 15px;
+      min-width: 40px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      font-weight: bold;
+    }
+
+    .key:hover {
+      background: rgba(40, 40, 70, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .key:active, .key.active {
+      background: rgba(74, 128, 245, 0.8);
+      color: white;
+      transform: translateY(1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .key::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+      transition: transform 0.5s, opacity 0.3s;
+    }
+
+    .key:active::after {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      transition: 0s;
+    }
+
+    .key-special {
+      min-width: 60px;
+    }
+
+    .key-space {
+      min-width: 350px;
+    }
+
+    .key-ctrl, .key-alt, .key-shift {
+      min-width: 80px;
+    }
+
+    .key-backspace {
+      min-width: 100px;
+    }
+
+    .key-tab {
+      min-width: 80px;
+    }
+
+    .key-enter {
+      min-width: 90px;
+    }
+
+    .key-caps {
+      min-width: 90px;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      text-shadow: 0 0 10px rgba(74, 128, 245, 0.5);
+      font-size: 32px;
+      font-weight: 300;
+      letter-spacing: 2px;
+    }
+
+    .glow {
+      animation: glow 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 5px #4a80f5, 0 0 10px #4a80f5;
+      }
+      to {
+        text-shadow: 0 0 10px #4a80f5, 0 0 20px #4a80f5;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="glow">FUTURISTIC VIRTUAL KEYBOARD</h1>
+    <textarea class="text-display" id="textDisplay" placeholder="Start typing..."></textarea>
+    <div class="keyboard" id="keyboard">
+      <div class="row">
+        <div class="key" data-key="Backquote">`</div>
+        <div class="key" data-key="Digit1">1</div>
+        <div class="key" data-key="Digit2">2</div>
+        <div class="key" data-key="Digit3">3</div>
+        <div class="key" data-key="Digit4">4</div>
+        <div class="key" data-key="Digit5">5</div>
+        <div class="key" data-key="Digit6">6</div>
+        <div class="key" data-key="Digit7">7</div>
+        <div class="key" data-key="Digit8">8</div>
+        <div class="key" data-key="Digit9">9</div>
+        <div class="key" data-key="Digit0">0</div>
+        <div class="key" data-key="Minus">-</div>
+        <div class="key" data-key="Equal">=</div>
+        <div class="key key-backspace" data-key="Backspace">⌫</div>
+      </div>
+      <div class="row">
+        <div class="key key-tab" data-key="Tab">Tab</div>
+        <div class="key" data-key="KeyQ">Q</div>
+        <div class="key" data-key="KeyW">W</div>
+        <div class="key" data-key="KeyE">E</div>
+        <div class="key" data-key="KeyR">R</div>
+        <div class="key" data-key="KeyT">T</div>
+        <div class="key" data-key="KeyY">Y</div>
+        <div class="key" data-key="KeyU">U</div>
+        <div class="key" data-key="KeyI">I</div>
+        <div class="key" data-key="KeyO">O</div>
+        <div class="key" data-key="KeyP">P</div>
+        <div class="key" data-key="BracketLeft">[</div>
+        <div class="key" data-key="BracketRight">]</div>
+        <div class="key" data-key="Backslash">\</div>
+      </div>
+      <div class="row">
+        <div class="key key-caps" data-key="CapsLock">Caps</div>
+        <div class="key" data-key="KeyA">A</div>
+        <div class="key" data-key="KeyS">S</div>
+        <div class="key" data-key="KeyD">D</div>
+        <div class="key" data-key="KeyF">F</div>
+        <div class="key" data-key="KeyG">G</div>
+        <div class="key" data-key="KeyH">H</div>
+        <div class="key" data-key="KeyJ">J</div>
+        <div class="key" data-key="KeyK">K</div>
+        <div class="key" data-key="KeyL">L</div>
+        <div class="key" data-key="Semicolon">;</div>
+        <div class="key" data-key="Quote">'</div>
+        <div class="key key-enter" data-key="Enter">Enter</div>
+      </div>
+      <div class="row">
+        <div class="key key-shift" data-key="ShiftLeft">Shift</div>
+        <div class="key" data-key="KeyZ">Z</div>
+        <div class="key" data-key="KeyX">X</div>
+        <div class="key" data-key="KeyC">C</div>
+        <div class="key" data-key="KeyV">V</div>
+        <div class="key" data-key="KeyB">B</div>
+        <div class="key" data-key="KeyN">N</div>
+        <div class="key" data-key="KeyM">M</div>
+        <div class="key" data-key="Comma">,</div>
+        <div class="key" data-key="Period">.</div>
+        <div class="key" data-key="Slash">/</div>
+        <div class="key key-shift" data-key="ShiftRight">Shift</div>
+      </div>
+      <div class="row">
+        <div class="key key-ctrl" data-key="ControlLeft">Ctrl</div>
+        <div class="key key-special" data-key="MetaLeft">Win</div>
+        <div class="key key-alt" data-key="AltLeft">Alt</div>
+        <div class="key key-space" data-key="Space">Space</div>
+        <div class="key key-alt" data-key="AltRight">Alt</div>
+        <div class="key key-special" data-key="MetaRight">Menu</div>
+        <div class="key key-ctrl" data-key="ControlRight">Ctrl</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const textDisplay = document.getElementById('textDisplay');
+      const keyboard = document.getElementById('keyboard');
+      const keys = document.querySelectorAll('.key');
+      let capsLockActive = false;
+      let shiftActive = false;
+
+      // Focus the text display when the page loads
+      textDisplay.focus();
+
+      // Handle physical keyboard events
+      document.addEventListener('keydown', function(e) {
+        const key = document.querySelector(`.key[data-key="${e.code}"]`);
+        if (key) {
+          key.classList.add('active');
+          handleKeyPress(e.key, e.code);
+          
+          // Prevent default behavior for Tab and other keys that might move focus
+          if (e.code === 'Tab' || e.code === 'Space') {
+            e.preventDefault();
+          }
+        }
+
+        // Handle Caps Lock
+        if (e.code === 'CapsLock') {
+          capsLockActive = !capsLockActive;
+          document.querySelector('.key[data-key="CapsLock"]').classList.toggle('active', capsLockActive);
+        }
+
+        // Handle Shift keys
+        if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+          shiftActive = true;
+        }
+      });
+
+      document.addEventListener('keyup', function(e) {
+        const key = document.querySelector(`.key[data-key="${e.code}"]`);
+        if (key && e.code !== 'CapsLock') {
+          key.classList.remove('active');
+        }
+
+        // Handle Shift keys
+        if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
+          shiftActive = false;
+        }
+      });
+
+      // Handle virtual keyboard clicks
+      keyboard.addEventListener('mousedown', function(e) {
+        if (e.target.classList.contains('key')) {
+          const keyCode = e.target.getAttribute('data-key');
+          e.target.classList.add('active');
+          handleVirtualKeyPress(keyCode);
+          
+          // Keep focus on text area
+          textDisplay.focus();
+        }
+      });
+
+      keyboard.addEventListener('mouseup', function(e) {
+        if (e.target.classList.contains('key')) {
+          const keyCode = e.target.getAttribute('data-key');
+          if (keyCode !== 'CapsLock' || !capsLockActive) {
+            e.target.classList.remove('active');
+          }
+        }
+      });
+
+      // Handle key presses
+      function handleKeyPress(key, code) {
+        // Handle special keys
+        if (code === 'Backspace') {
+          const text = textDisplay.value;
+          textDisplay.value = text.substring(0, text.length - 1);
+        } else if (code === 'Space') {
+          textDisplay.value += ' ';
+        } else if (code === 'Tab') {
+          textDisplay.value += '\t';
+        } else if (code === 'Enter') {
+          textDisplay.value += '\n';
+        } else if (code === 'CapsLock') {
+          // Already handled in keydown event
+        } else if (code === 'ShiftLeft' || code === 'ShiftRight') {
+          // Shift key functionality is handled separately
+        } else if (code === 'ControlLeft' || code === 'ControlRight' || 
+                  code === 'AltLeft' || code === 'AltRight' || 
+                  code === 'MetaLeft' || code === 'MetaRight') {
+          // Do nothing for these modifier keys
+        } else {
+          textDisplay.value += key;
+        }
+      }
+
+      // Handle virtual key presses
+      function handleVirtualKeyPress(keyCode) {
+        // For letter keys
+        if (keyCode.startsWith('Key')) {
+          const letter = keyCode.charAt(keyCode.length - 1);
+          const isUpperCase = (capsLockActive && !shiftActive) || (!capsLockActive && shiftActive);
+          textDisplay.value += isUpperCase ? letter : letter.toLowerCase();
+        } 
+        // For digit keys
+        else if (keyCode.startsWith('Digit')) {
+          const digit = keyCode.charAt(keyCode.length - 1);
+          if (shiftActive) {
+            const shiftDigits = {
+              '1': '!', '2': '@', '3': '#', '4': '$', '5': '%',
+              '6': '^', '7': '&', '8': '*', '9': '(', '0': ')'
+            };
+            textDisplay.value += shiftDigits[digit] || digit;
+          } else {
+            textDisplay.value += digit;
+          }
+        }
+        // For special keys
+        else {
+          switch (keyCode) {
+            case 'Backspace':
+              const text = textDisplay.value;
+              textDisplay.value = text.substring(0, text.length - 1);
+              break;
+            case 'Space':
+              textDisplay.value += ' ';
+              break;
+            case 'Tab':
+              textDisplay.value += '\t';
+              break;
+            case 'Enter':
+              textDisplay.value += '\n';
+              break;
+            case 'CapsLock':
+              capsLockActive = !capsLockActive;
+              document.querySelector('.key[data-key="CapsLock"]').classList.toggle('active', capsLockActive);
+              break;
+            case 'ShiftLeft':
+            case 'ShiftRight':
+              shiftActive = !shiftActive;
+              document.querySelectorAll('.key[data-key="ShiftLeft"], .key[data-key="ShiftRight"]')
+                .forEach(key => key.classList.toggle('active', shiftActive));
+              break;
+            case 'Backquote':
+              textDisplay.value += shiftActive ? '~' : '`';
+              break;
+            case 'Minus':
+              textDisplay.value += shiftActive ? '_' : '-';
+              break;
+            case 'Equal':
+              textDisplay.value += shiftActive ? '+' : '=';
+              break;
+            case 'BracketLeft':
+              textDisplay.value += shiftActive ? '{' : '[';
+              break;
+            case 'BracketRight':
+              textDisplay.value += shiftActive ? '}' : ']';
+              break;
+            case 'Backslash':
+              textDisplay.value += shiftActive ? '|' : '\\';
+              break;
+            case 'Semicolon':
+              textDisplay.value += shiftActive ? ':' : ';';
+              break;
+            case 'Quote':
+              textDisplay.value += shiftActive ? '"' : "'";
+              break;
+            case 'Comma':
+              textDisplay.value += shiftActive ? '<' : ',';
+              break;
+            case 'Period':
+              textDisplay.value += shiftActive ? '>' : '.';
+              break;
+            case 'Slash':
+              textDisplay.value += shiftActive ? '?' : '/';
+              break;
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
